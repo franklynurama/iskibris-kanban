@@ -13,6 +13,7 @@ import PostSkeleton from "./PostSkeleton";
 export const PostListContent = () => {
   const { data: unorderedPosts, isLoading, refetch } = useListContext<Post>();
   const dataProvider = useDataProvider<MyDataProvider>();
+  console.log("useListContext data:",unorderedPosts);
 
   const [postsByStatus, setPostsByStatus] = useState<PostsByStatus>(
     getPostsByStatus([])
