@@ -7,7 +7,7 @@ import { Box, Typography } from "@mui/material";
 const RatingFilter = () => {
   const { filterValues, setFilters } = useListContext();
   const handleChange = (event, newValue) => {
-    setFilters({ ...filterValues, rating: newValue });
+    setFilters({ ...filterValues, rating_id: newValue });
   };
 
   return (
@@ -15,7 +15,7 @@ const RatingFilter = () => {
       <Typography component="legend">Rating</Typography>
       <Rating
         name="rating-filter"
-        value={filterValues.rating || 0}
+        value={filterValues.rating_id || 0}
         onChange={handleChange}
       />
     </Box>

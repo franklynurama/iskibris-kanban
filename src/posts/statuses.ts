@@ -1,32 +1,43 @@
 import type { Post } from ".";
 
-export const statuses: Post["status"][] = [
-  "new" , "resume_screening" , "waiting_for_Interview" , "waiting_for_job_seeker",
-  "to_interview_in_person", "references_and_background_check", "final_decision_waiting_list",
-  "job_offering", "rejected", "candidate_withdrew", "hired"
+export const statuses: Post["stage_id_enum"][] = [
+  "NEW",
+  "RESUME_SCREENING",
+  "WAITING_FOR_INTERVIEW",
+  "WAITING_FOR_JOB_SEEKER",
+  "TO_INTERVIEW_IN_PERSON",
+  "REFERENCES_AND_BACKGROUND_CHECK",
+  "FINAL_DECISION_WAITING_LIST",
+  "JOB_OFFERING",
+  "REJECTED",
+  "CANDIDATE_WITHDREW",
+  "HIRED",
 ];
 
-export const statusNames: Record<Post["status"], string> = {
-  new: "New" ,
-  resume_screening: "Resume Screening" ,
-  waiting_for_Interview: "Waiting for Interview",
-  waiting_for_job_seeker: "Waiting for Job Seeker",
-  to_interview_in_person: "To interview In Person",
-  references_and_background_check: "References and Background Check",
-  final_decision_waiting_list: "Final Decision Waiting List",
-  job_offering: "Job Offering",
-  rejected: "Rejected",
-  candidate_withdrew: "Candidate Withdrew",
-  hired: "Hired",
-
+export const statusNames: Record<Post["stage_id_enum"], string> = {
+  NEW: "New",
+  RESUME_SCREENING: "Resume Screening",
+  WAITING_FOR_INTERVIEW: "Waiting for Interview",
+  WAITING_FOR_JOB_SEEKER: "Waiting for Job Seeker",
+  TO_INTERVIEW_IN_PERSON: "To interview In Person",
+  REFERENCES_AND_BACKGROUND_CHECK: "References and Background Check",
+  FINAL_DECISION_WAITING_LIST: "Final Decision Waiting List",
+  JOB_OFFERING: "Job Offering",
+  REJECTED: "Rejected",
+  CANDIDATE_WITHDREW: "Candidate Withdrew",
+  HIRED: "Hired",
 };
 
-export type PostsByStatus = Record<Post["status"], Post[]>;
+export type PostsByStatus = Record<(typeof statuses)[number], Post[]>;
 
 export const getPostsByStatus = (unorderedPosts: Post[]) => {
   const postsByStatus: PostsByStatus = unorderedPosts.reduce(
     (acc, post) => {
-      acc[post.status].push(post);
+      const upperCaseStatus = post.stage_id_enum.toUpperCase();
+      if (!acc[upperCaseStatus]) {
+        acc[upperCaseStatus] = [];
+      }
+      acc[upperCaseStatus].push(post);
       return acc;
     },
     statuses.reduce(
@@ -34,10 +45,10 @@ export const getPostsByStatus = (unorderedPosts: Post[]) => {
       {} as PostsByStatus
     )
   );
-  // order each column by index
+  // order each column by id
   statuses.forEach((status) => {
     postsByStatus[status] = postsByStatus[status].sort(
-      (recordA: Post, recordB: Post) => recordA.index - recordB.index
+      (recordA: Post, recordB: Post) => recordA.id - recordB.id
     );
   });
   return postsByStatus;

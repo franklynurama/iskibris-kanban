@@ -1,4 +1,4 @@
-import { List, Filter, SearchInput, SelectInput, DateInput } from "react-admin";
+import { List, Filter, SearchInput, SelectInput } from "react-admin";
 import { useMediaQuery, Typography, Theme } from "@mui/material";
 import { PostListContent } from ".";
 import RatingFilter from "./RatingFilter";
@@ -12,25 +12,26 @@ const postFilters = [
     sx={{ marginBottom: "7px" }}
   />,
   <SelectInput
-    source="status"
+    source="stage_id_enum"
+    label="Status"
     choices={[
-      { id: "new", name: "New" },
-      { id: "resume_screening", name: "Resume Screening" },
-      { id: "waiting_for_Interview", name: "Waiting for Interview" },
-      { id: "waiting_for_job_seeker", name: "Waiting for Job Seeker" },
-      { id: "to_interview_in_person", name: "To interview In Person" },
+      { id: "NEW", name: "New" },
+      { id: "RESUME_SCREENING", name: "Resume Screening" },
+      { id: "WAITING_FOR_INTERVIEW", name: "Waiting for Interview" },
+      { id: "WAITING_FOR_JOB_SEEKER", name: "Waiting for Job Seeker" },
+      { id: "TO_INTERVIEW_IN_PERSON", name: "To interview In Person" },
       {
-        id: "references_and_background_check",
+        id: "REFERENCES_AND_BACKGROUND_CHECK",
         name: "References and Background Check",
       },
       {
-        id: "final_decision_waiting_list",
+        id: "FINAL_DECISION_WAITING_LIST",
         name: "Final Decision Waiting List",
       },
-      { id: "job_offering", name: "Job Offering" },
-      { id: "rejected", name: "Rejected" },
-      { id: "candidate_withdrew", name: "Candidate Withdrew" },
-      { id: "hired", name: "Hired" },
+      { id: "JOB_OFFERING", name: "Job Offering" },
+      { id: "REJECTED", name: "Rejected" },
+      { id: "CANDIDATE_WITHDREW", name: "Candidate Withdrew" },
+      { id: "HIRED", name: "Hired" },
     ]}
     alwaysOn
     key="status-select2"
@@ -107,7 +108,7 @@ export const PostList = () => {
       <List
         filters={<PostFilter />}
         perPage={100}
-        sort={{ field: "index", order: "ASC" }}
+        sort={{ field: "id", order: "ASC" }}
         pagination={false}
         component="div"
       >

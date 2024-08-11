@@ -1,10 +1,5 @@
-import {
-  Admin,
-  Resource,
-  EditGuesser,
-  ShowGuesser,
-} from "react-admin";
-import { dataProvider } from "./dataProvider";
+import { Admin, Resource, EditGuesser, ShowGuesser } from "react-admin";
+import dataProvider from "./dataProvider";
 import { PostList } from "./posts";
 
 export const App = () => (

@@ -11,6 +11,7 @@ import { PostColumn } from "./PostColumn";
 
 export const PostListContent = () => {
   const { data: unorderedPosts, isLoading, refetch } = useListContext<Post>();
+  console.log("useListContext data:", unorderedPosts);
   const dataProvider = useDataProvider<MyDataProvider>();
 
   const [postsByStatus, setPostsByStatus] = useState<PostsByStatus>(
@@ -56,8 +57,8 @@ export const PostListContent = () => {
       return;
     }
 
-    const sourceStatus = source.droppableId as Post["status"];
-    const destinationStatus = destination.droppableId as Post["status"];
+    const sourceStatus = source.droppableId as Post["stage_id_enum"];
+    const destinationStatus = destination.droppableId as Post["stage_id_enum"];
     const sourcePost = postsByStatus[sourceStatus][source.index]!;
     const destinationPost = postsByStatus[destinationStatus][
       destination.index
@@ -100,9 +101,9 @@ export const PostListContent = () => {
 
 const updatePostStatusLocal = (
   sourcePost: Post,
-  source: { status: Post["status"]; index: number },
+  source: { status: Post["stage_id_enum"]; index: number },
   destination: {
-    status: Post["status"];
+    status: Post["stage_id_enum"];
     index?: number; // undefined if dropped after the last item
   },
   postsByStatus: PostsByStatus
