@@ -55,7 +55,7 @@ export const Details = ({ post }: { post: Post }) => {
             <Stack direction={"column"}>
               <Typography variant="h2">{post.name}</Typography>
               <Typography variant="h5">{post.job_title}</Typography>
-              <BasicRating value={post.rating} />
+              <BasicRating value={post.rating_id} />
             </Stack>
             <Stack direction={"column"} sx={{ marginRight: 2 }}>
               <Typography variant="h5">

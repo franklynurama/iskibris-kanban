@@ -56,7 +56,7 @@ export const PostCard = ({ post, index }: { post: Post; index: number }) => {
               >
                 {post.job_title}
                 <Divider orientation="vertical" variant="fullWidth" flexItem />
-                {post.residency_status}
+                {post.place.slug}
               </Typography>
             </CardContent>
             <CardActions>

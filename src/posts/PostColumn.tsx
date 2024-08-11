@@ -9,7 +9,7 @@ export const PostColumn = ({
   status,
   posts,
 }: {
-  status: Post["status"];
+  status: Post["stage_id_enum"];
   posts: Post[];
 }) => (
   <Box
@@ -18,7 +18,7 @@ export const PostColumn = ({
       paddingTop: "8px",
       paddingBottom: "16px",
       bgcolor: "#eaeaee",
-      "&:first-child": {
+      "&:first-of-type": {
         paddingLeft: "5px",
         borderTopLeftRadius: 5,
       },
@@ -28,7 +28,7 @@ export const PostColumn = ({
       },
     }}
   >
-    <Box sx={{ height: 60, borderRadius: 5 }}>
+    <Box sx={{ height: 60, borderRadius: 5, width: 240, flexShrink: 0 }}>
       <Typography align="center" variant="subtitle1" sx={{ fontWeight: 500 }}>
         {statusNames[status]}
       </Typography>
