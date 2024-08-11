@@ -1,5 +1,5 @@
 import { DragDropContext, OnDragEndResponder } from "@hello-pangea/dnd";
-import { Box } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import { isEqual } from "lodash";
 import { useEffect, useState } from "react";
 import { useDataProvider, useListContext } from "react-admin";
@@ -8,10 +8,10 @@ import type { Post } from ".";
 import { PostsByStatus, getPostsByStatus, statuses } from ".";
 import { MyDataProvider } from "../dataProvider";
 import { PostColumn } from "./PostColumn";
+import PostSkeleton from "./PostSkeleton";
 
 export const PostListContent = () => {
   const { data: unorderedPosts, isLoading, refetch } = useListContext<Post>();
-  console.log("useListContext data:", unorderedPosts);
   const dataProvider = useDataProvider<MyDataProvider>();
 
   const [postsByStatus, setPostsByStatus] = useState<PostsByStatus>(
@@ -40,8 +40,6 @@ export const PostListContent = () => {
       dataProvider.updatePostStatus(source, destination),
     { onSettled: () => refetch() }
   );
-
-  if (isLoading) return null;
 
   const onDragEnd: OnDragEndResponder = (result) => {
     const { destination, source } = result;
@@ -83,6 +81,21 @@ export const PostListContent = () => {
       destination: destinationPost,
     });
   };
+
+  // Render skeletons while loading
+  if (isLoading) {
+    return (
+      <Box display="flex">
+        {statuses.map((status) => (
+          <Box key={status} sx={{ width: 300, marginRight: 2 }}>
+            <Skeleton variant="text" height={40} />
+           <PostSkeleton/>
+            <Skeleton variant="text" height={20} />
+          </Box>
+        ))}
+      </Box>
+    );
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
