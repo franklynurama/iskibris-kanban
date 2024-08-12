@@ -1,7 +1,7 @@
 import { DataProvider } from "react-admin";
 import { Post, getPostsByStatus } from "./posts";
 
-let apiUrl = "https://staging.iskibris.com/api/applications/test";
+let apiUrl = "https://staging.iskibris.com/api/applications/test?per_page=100";
 const cache: Record<string, any> = {};
 
 const fetchJson = (url: string, options: RequestInit = {}) => {
@@ -23,7 +23,7 @@ const fetchJson = (url: string, options: RequestInit = {}) => {
 
 const dataProvider: DataProvider = {
   getList: (resource: string, params: any) => {
-    apiUrl = "https://staging.iskibris.com/api/applications/test";
+    apiUrl = "https://staging.iskibris.com/api/applications/test?per_page=100";
 
     const { filter, sort, range } = params;
     const fetchParams = {
