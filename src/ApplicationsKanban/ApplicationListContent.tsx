@@ -64,6 +64,8 @@ export const ApplicationListContent: React.FC<Props> = ({
     getPostsByStatus([])
   );
 
+  const [pageNumber, setPageNumber] = useState(1); // Track the current page
+
   useEffect(() => {
     if (posts) {
       const newPostsByStatus = getPostsByStatus(posts);
@@ -72,7 +74,7 @@ export const ApplicationListContent: React.FC<Props> = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts, postsByStatus]);
+  }, [posts]);
 
   const mutation = useMutation(
     async ({ source, destination }: { source: Post; destination: Post }) =>
@@ -82,27 +84,20 @@ export const ApplicationListContent: React.FC<Props> = ({
 
   // Scroll event listener to detect when user scrolls to the bottom of the page
   const handleScroll = React.useCallback(() => {
-    // Check if user has scrolled close enough to the bottom
-    const scrollThreshold = 50; // Pixels from the bottom of the page
-    const position =
+    if (
       window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight - scrollThreshold;
-
-    if (position && onLoadMore) {
-      onLoadMore(); // Trigger loading more posts
+      document.documentElement.scrollHeight
+    ) {
+      if (onLoadMore) {
+        onLoadMore(); // Trigger loading more posts
+        setPageNumber((prevPageNumber) => prevPageNumber + 1); // Increment the page number
+      }
     }
   }, [onLoadMore]);
 
-  // Debounce the scroll handler to avoid unnecessary calls
   useEffect(() => {
-    const debouncedHandleScroll = () => {
-      setTimeout(() => {
-        handleScroll();
-      }, 150);
-    };
-
-    window.addEventListener("scroll", debouncedHandleScroll);
-    return () => window.removeEventListener("scroll", debouncedHandleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
   const onDragEnd: OnDragEndResponder = (result) => {
@@ -158,7 +153,8 @@ export const ApplicationListContent: React.FC<Props> = ({
           <ApplicationColumn
             status={status}
             posts={postsByStatus[status]}
-            key={status}
+            key={`${status}-${pageNumber}`} // Unique key for each status/page combo
+            pageNumber={pageNumber} // Pass the page number to ApplicationColumn
             onPreviewApplication={onPreviewApplication}
           />
         ))}

@@ -34,6 +34,11 @@ const ApplicationsKanban: React.FC<Props> = (props) => {
 
   const { fetchNextPage } = useFetchNextPage();
 
+  const handleRefetch = async () => {
+    // Return the items instead of refetching from the server
+    return items;
+  };
+
   const handleLoadMore = async () => {
     // Fetch next page of data
     const newItems = await fetchNextPage();
@@ -51,7 +56,7 @@ const ApplicationsKanban: React.FC<Props> = (props) => {
       <QueryClientProvider client={queryClient}>
         <ApplicationListContent
           posts={items}
-          refetch={handleLoadMore}
+          refetch={handleRefetch}
           onPreviewApplication={onPreviewApplication}
           onLoadMore={handleLoadMore}
           onApplicationStatusChanged={onApplicationStatusChanged}
