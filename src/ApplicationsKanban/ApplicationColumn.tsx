@@ -10,12 +10,14 @@ interface ApplicationColumnProps {
   status: Post["stage_id_enum"];
   posts: Post[];
   onPreviewApplication?: (application: Post) => void;
+  pageNumber: number; // Pass pageNumber as a prop
 }
 
 export const ApplicationColumn: React.FC<ApplicationColumnProps> = ({
   status,
   posts,
   onPreviewApplication,
+  pageNumber, // Receive pageNumber as a prop
 }) => (
   <Box
     sx={{
@@ -56,7 +58,8 @@ export const ApplicationColumn: React.FC<ApplicationColumnProps> = ({
         >
           {posts.map((post, index) => (
             <ApplicationCard
-              key={post.id}
+              // Update key to include pageNumber for uniqueness
+              key={`${post.id}-${pageNumber}-${index}`}
               post={post}
               index={index}
               onPreviewApplication={onPreviewApplication}
